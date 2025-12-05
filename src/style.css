@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fredoka', sans-serif;
+    background: linear-gradient(135deg, #FFF8E7 0%, #FFE4C4 50%, #F5DEB3 100%);
+    color: #5D4037;
+    overflow: hidden;
+}
+
+.container {
+    text-align: center;
+    padding: 2rem;
+    z-index: 10;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    color: #8B4513;
+    transition: all 0.5s ease;
+}
+
+.subtitle {
+    font-size: 1.2rem;
+    color: #A0522D;
+    margin-bottom: 2rem;
+    opacity: 0.9;
+    transition: all 0.5s ease;
+}
+
+.churro-icon {
+    margin-bottom: 1.5rem;
+    animation: wiggle 2s ease-in-out infinite;
+}
+
+.churro-icon .churro-image {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 4px 8px rgba(139, 69, 19, 0.3));
+}
+
+.churro-icon.celebrating .churro-image {
+    width: 150px;
+    animation: bounce 0.6s ease infinite;
+}
+
+@keyframes wiggle {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-20px) scale(1.1); }
+}
+
+.countdown {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+
+.time-block {
+    background: linear-gradient(180deg, #D2691E 0%, #8B4513 100%);
+    padding: 1.5rem 2rem;
+    border-radius: 16px;
+    min-width: 100px;
+    box-shadow:
+        0 8px 20px rgba(139, 69, 19, 0.3),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.time-block:hover {
+    transform: translateY(-4px);
+    box-shadow:
+        0 12px 28px rgba(139, 69, 19, 0.4),
+        inset 0 2px 4px rgba(255, 255, 255, 0.2);
+}
+
+.time-value {
+    font-size: 3.5rem;
+    font-weight: 600;
+    color: #FFF8E7;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.time-label {
+    font-size: 0.9rem;
+    color: #FFE4C4;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+}
+
+.message {
+    font-size: 1.1rem;
+    color: #8B4513;
+    opacity: 0.8;
+    transition: all 0.5s ease;
+}
+
+/* Floating cinnamon particles */
+.particle {
+    position: fixed;
+    width: 6px;
+    height: 6px;
+    background: #D2691E;
+    border-radius: 50%;
+    opacity: 0.3;
+    animation: float 15s infinite;
+    pointer-events: none;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10% { opacity: 0.3; }
+    90% { opacity: 0.3; }
+    100% {
+        transform: translateY(-100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Celebration mode */
+body.celebrating {
+    background: linear-gradient(135deg, #FFE4B5 0%, #FFD700 25%, #FFA500 50%, #FF8C00 75%, #FFE4C4 100%);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .countdown {
+        gap: 1rem;
+    }
+
+    .time-block {
+        padding: 1rem 1.5rem;
+        min-width: 80px;
+    }
+
+    .time-value {
+        font-size: 2.5rem;
+    }
+
+    .churro-icon svg {
+        width: 80px;
+    }
+
+    .churro-icon.celebrating svg {
+        width: 120px;
+    }
+}

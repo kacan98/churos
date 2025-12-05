@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churros Time!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Fredoka', sans-serif;
+            background: linear-gradient(135deg, #FFF8E7 0%, #FFE4C4 50%, #F5DEB3 100%);
+            color: #5D4037;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #8B4513;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #A0522D;
+            margin-bottom: 3rem;
+            opacity: 0.9;
+        }
+
+        .churro-icon {
+            margin-bottom: 1.5rem;
+            animation: wiggle 2s ease-in-out infinite;
+        }
+
+        .churro-icon svg {
+            width: 120px;
+            height: auto;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        .countdown {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 3rem;
+        }
+
+        .time-block {
+            background: linear-gradient(180deg, #D2691E 0%, #8B4513 100%);
+            padding: 1.5rem 2rem;
+            border-radius: 16px;
+            min-width: 100px;
+            box-shadow: 
+                0 8px 20px rgba(139, 69, 19, 0.3),
+                inset 0 2px 4px rgba(255, 255, 255, 0.2);
+        }
+
+        .time-value {
+            font-size: 3.5rem;
+            font-weight: 600;
+            color: #FFF8E7;
+            line-height: 1;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .time-label {
+            font-size: 0.9rem;
+            color: #FFE4C4;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0.5rem;
+        }
+
+        .message {
+            font-size: 1.1rem;
+            color: #8B4513;
+            opacity: 0.8;
+        }
+
+        .done {
+            display: none;
+        }
+
+        .done.show {
+            display: block;
+            animation: celebrate 0.5s ease-out;
+        }
+
+        .done h2 {
+            font-size: 3rem;
+            color: #D2691E;
+            margin-bottom: 1rem;
+        }
+
+        .done .churro-icon svg {
+            width: 180px;
+        }
+
+        .done .churro-icon {
+            animation: bounce 0.6s ease infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes celebrate {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Floating cinnamon particles */
+        .particle {
+            position: fixed;
+            width: 6px;
+            height: 6px;
+            background: #D2691E;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0;
+            }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { 
+                transform: translateY(-100vh) rotate(720deg); 
+                opacity: 0;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="particles"></div>
+    
+    <div class="container">
+        <h1>Churros Incoming!</h1>
+        <p class="subtitle">The sweet moment approaches...</p>
+        
+        <div class="countdown" id="countdown">
+            <div class="time-block">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+        </div>
+        
+        <p class="message" id="waitMessage">Almost there...</p>
+        
+    </div>
+
+    <script>
+        // Create floating particles
+        const particlesContainer = document.querySelector('.particles');
+        for (let i = 0; i < 15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + 'vw';
+            particle.style.animationDelay = Math.random() * 15 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer.appendChild(particle);
+        }
+
+        let hasReachedZero = false;
+
+        // Speech synthesis - say churros phrases
+        function sayChurrosPhrases() {
+            if ('speechSynthesis' in window) {
+                const phrases = [
+                    'Churros time!',
+                    'Get them while they are hot!',
+                    'Delicious!',
+                    'Churoooos!'
+                ];
+                let delay = 0;
+                
+                phrases.forEach((phrase) => {
+                    setTimeout(() => {
+                        const utterance = new SpeechSynthesisUtterance(phrase);
+                        utterance.rate = 0.9;
+                        utterance.pitch = 1.1;
+                        window.speechSynthesis.speak(utterance);
+                    }, delay);
+                    delay += 1500;
+                });
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const target = new Date();
+            target.setHours(13, 15, 0, 0);
+            
+            // If it's already past 13:15 today, show time since churros
+            if (now >= target) {
+                // Trigger speech once when we first reach zero
+                if (!hasReachedZero) {
+                    hasReachedZero = true;
+                    sayChurrosPhrases();
+                }
+
+                document.querySelector('.subtitle').textContent = 'Time since churros...';
+                document.querySelector('h1').textContent = 'Churros Time!';
+                document.getElementById('waitMessage').textContent = 'Hope you enjoyed them!';
+                
+                const diff = now - target;
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                return;
+            }
+            
+            const diff = target - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>

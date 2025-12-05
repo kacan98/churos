@@ -1,0 +1,28 @@
+{
+  "name": "churos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kacan98/churos.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kacan98/churos/issues"
+  },
+  "homepage": "https://github.com/kacan98/churos#readme",
+  "devDependencies": {
+    "@types/canvas-confetti": "^1.9.0",
+    "canvas-confetti": "^1.9.4",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.6"
+  }
+}

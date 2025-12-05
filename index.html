@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Churros Time!</title>
+    <link rel="icon" type="image/svg+xml" href="/churro.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="particles"></div>
+
+    <div class="container">
+        <div class="churro-icon" id="churroIcon"></div>
+
+        <h1 id="title">Churros Incoming!</h1>
+        <p class="subtitle" id="subtitle">The sweet moment approaches...</p>
+
+        <div class="countdown" id="countdown">
+            <div class="time-block">
+                <div class="time-value" id="hours">00</div>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="minutes">00</div>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-block">
+                <div class="time-value" id="seconds">00</div>
+                <div class="time-label">Seconds</div>
+            </div>
+        </div>
+
+        <p class="message" id="waitMessage">Almost there...</p>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+</body>
+</html>
