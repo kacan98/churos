@@ -131,10 +131,10 @@ function sayChurrosPhrases() {
     if (!('speechSynthesis' in window)) return
 
     const phrases = [
-        'Churros time!',
-        'Get them while they are hot!',
-        'Delicious!',
-        'Churoooos!'
+        'The prophecy is fulfilled.',
+        'They are here.',
+        'You cannot escape the churro.',
+        'Join us.'
     ]
 
     let delay = 1000 // Start after the sound effect
@@ -142,11 +142,11 @@ function sayChurrosPhrases() {
     phrases.forEach((phrase) => {
         setTimeout(() => {
             const utterance = new SpeechSynthesisUtterance(phrase)
-            utterance.rate = 0.9
-            utterance.pitch = 1.1
+            utterance.rate = 0.7
+            utterance.pitch = 0.6
             window.speechSynthesis.speak(utterance)
         }, delay)
-        delay += 2000
+        delay += 3000
     })
 }
 
