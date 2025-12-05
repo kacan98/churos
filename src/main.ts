@@ -78,8 +78,8 @@ function addFallingChurro() {
 }
 
 function spawnChurros() {
-    const minutesOpen = (Date.now() - pageOpenedAt) / 1000 / 60
-    const churrosToAdd = Math.min(Math.floor(Math.pow(minutesOpen + 1, 2) * 3), 300)
+    const secondsOpen = (Date.now() - pageOpenedAt) / 1000
+    const churrosToAdd = Math.min(Math.floor(secondsOpen * 5), 300)
 
     for (let i = 0; i < churrosToAdd; i++) {
         addFallingChurro()
