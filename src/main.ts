@@ -10,9 +10,27 @@ let celebrationTriggered = false
 
 function init() {
     createParticles()
+    createFallingChurrosContainer()
     initChurroIcon()
+    requestNotificationPermission()
     updateCountdown()
     setInterval(updateCountdown, 1000)
+}
+
+function requestNotificationPermission() {
+    if ('Notification' in window && Notification.permission === 'default') {
+        Notification.requestPermission()
+    }
+}
+
+function sendNotification() {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification('The prophecy is fulfilled.', {
+            body: 'The churros have arrived. Join us.',
+            icon: import.meta.env.BASE_URL + 'churro.png',
+            requireInteraction: true
+        })
+    }
 }
 
 function createParticles() {
@@ -26,6 +44,45 @@ function createParticles() {
         particle.style.animationDelay = `${Math.random() * 15}s`
         particle.style.animationDuration = `${15 + Math.random() * 10}s`
         particlesContainer.appendChild(particle)
+    }
+}
+
+const pageOpenedAt = Date.now()
+
+function createFallingChurrosContainer() {
+    const container = document.createElement('div')
+    container.className = 'falling-churros'
+    container.id = 'fallingChurros'
+    document.body.appendChild(container)
+
+    // Start spawning churros
+    setInterval(spawnChurros, 2000)
+}
+
+function addFallingChurro() {
+    const container = document.getElementById('fallingChurros')
+    if (!container) return
+
+    const churro = document.createElement('img')
+    churro.className = 'falling-churro'
+    churro.src = import.meta.env.BASE_URL + 'churro-fall.png'
+    churro.alt = ''
+    churro.style.left = `${Math.random() * 100}vw`
+    churro.style.animationDelay = `${Math.random() * 2}s`
+    churro.style.animationDuration = `${8 + Math.random() * 6}s`
+    churro.style.width = `${30 + Math.random() * 40}px`
+    churro.style.opacity = `${0.4 + Math.random() * 0.4}`
+    container.appendChild(churro)
+
+    setTimeout(() => churro.remove(), 16000)
+}
+
+function spawnChurros() {
+    const minutesOpen = (Date.now() - pageOpenedAt) / 1000 / 60
+    const churrosToAdd = Math.min(Math.floor(Math.pow(minutesOpen + 1, 2) * 3), 300)
+
+    for (let i = 0; i < churrosToAdd; i++) {
+        addFallingChurro()
     }
 }
 
@@ -81,6 +138,9 @@ function triggerCelebration() {
 
     // Say churros phrases
     sayChurrosPhrases()
+
+    // Send browser notification
+    sendNotification()
 }
 
 function playCelebrationSound() {
